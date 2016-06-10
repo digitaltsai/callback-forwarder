@@ -48,7 +48,7 @@ describe('Tests', function () {
     });
   });
 
-  describe.only('Callbacks', function () {
+  describe('Callbacks', function () {
     let client = null;
 
     before(function () {
@@ -111,6 +111,28 @@ describe('Tests', function () {
         .then((res) => {
           expect(res.statusCode).to.equal(200);
         });
+    });
+  });
+
+  describe('Funcky', function () {
+    it('Should be able to queue to create a listener before connecting', function () { // eslint-disable-line max-len
+      const client = new Client(config);
+      const promise = client.createListener()
+        .then((listener) => {
+          listener.setHandler((req, res) => {
+            res.sendStatus(204);
+          });
+          return request({
+            uri: listener.uri,
+            resolveWithFullResponse: true,
+          });
+        })
+        .then((res) => {
+          expect(res.statusCode).to.equal(204);
+        });
+
+      client.connect();
+      return promise;
     });
   });
 });

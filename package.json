@@ -1,6 +1,6 @@
 {
   "name": "callback-forwarder",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Forwards callbacks to clients",
   "main": "index.js",
   "repository": {
@@ -13,7 +13,7 @@
     "dist": "babel server --out-dir dist/server --source-maps && babel client --out-dir dist/client --source-maps && babel common --out-dir dist/common --source-maps"
   },
   "author": "digitaltsai",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",

@@ -11,11 +11,13 @@ class Client {
   constructor(config) {
     this.config = config;
     this.secret = config.sharedSecret;
+    this.connected = false;
     if (config.baseUrl) {
       this.baseUrl = config.baseUrl;
     } else {
       this.baseUrl = `http${config.secure ? 's' : ''}://${config.hostname}:${config.port}`;
     }
+    this.queue = [];
   }
 
   connect() {
@@ -50,6 +52,11 @@ class Client {
 
         if (parsed.connected === true) {
           this.ws.removeListener('close', authReject);
+          this.connected = true;
+          this.queue.forEach((fn) => {
+            fn();
+          });
+          this.queue = [];
           resolve(this);
           return;
         }
@@ -139,15 +146,23 @@ class Client {
         resolve(parsed);
       };
 
-      timeout = setTimeout(() => {
-        this.ws.removeListener('message', listener);
-        reject(new Error('timed out'));
-      }, 2000);
+      const run = () => {
+        timeout = setTimeout(() => {
+          this.ws.removeListener('message', listener);
+          reject(new Error('timed out'));
+        }, 2000);
 
-      this.ws.on('message', listener);
+        this.ws.on('message', listener);
 
-      logger.debug('Sending message', message);
-      this.ws.send(JSON.stringify(message));
+        logger.debug('Sending message', message);
+        this.ws.send(JSON.stringify(message));
+      };
+
+      if (this.connected === true) {
+        run();
+      } else {
+        this.queue.push(() => run());
+      }
     });
   }
 }

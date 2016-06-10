@@ -1,10 +1,14 @@
 # What is this
 
-This is a way to create a callback url forwarder for services that uses callback urls. You have a server that can connect to your clients through WebSockets. The clients can then tell the server to forward them the request what a path matches and give a response as well.
+This is a way to create a callback url forwarder for services that uses callback urls. It's similar to ngrok and localtunnel.
+
+You have a server that can connect to your clients through WebSockets. Whenever a request hits the webserver from somewhere else, it checks the clients to see if any are listening for that url.
+
+This was created mostly to test callback urls.
 
 # How to run
 
-* Your own server and domain to run the server portion of the code on
+* Your own server and domain to run the server part of the code on
 * It's preferred that you're on node 6 and npm 3
 
 ### Running the server
