@@ -100,6 +100,9 @@ class Client {
     }
     return this.sendRecv(msg)
       .then((message) => {
+        if (message.error) {
+          throw new Error(message.error);
+        }
         logger.debug(`Received callback url ${message.path}`);
         const responder = new Responder(this, message.path);
         this.paths[message.path] = responder;

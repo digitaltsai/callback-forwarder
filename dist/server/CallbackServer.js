@@ -25,8 +25,8 @@ var CallbackServer = function () {
     if (config.baseUrl) {
       var parsed = url.parse(config.baseUrl);
       this.baseUrl = config.baseUrl;
-      this.hostname = parsed.parsed.hosename;
-      this.port = parsed.parsed.port;
+      this.hostname = parsed.hostname;
+      this.port = parsed.port;
     } else {
       this.hostname = config.hostname;
       this.port = config.port;
@@ -132,7 +132,7 @@ var CallbackServer = function () {
       return new Promise(function (resolve, reject) {
         if (_this3.paths[path]) {
           var err = new Error('already has a path');
-          logger.error(err);
+          logger.warn(err);
           reject(err);
           return;
         }

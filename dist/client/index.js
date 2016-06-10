@@ -115,6 +115,9 @@ var Client = function () {
         msg.path = realPath;
       }
       return this.sendRecv(msg).then(function (message) {
+        if (message.error) {
+          throw new Error(message.error);
+        }
         logger.debug('Received callback url ' + message.path);
         var responder = new Responder(_this2, message.path);
         _this2.paths[message.path] = responder;

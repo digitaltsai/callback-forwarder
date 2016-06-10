@@ -16,8 +16,8 @@ class CallbackServer {
     if (config.baseUrl) {
       const parsed = url.parse(config.baseUrl);
       this.baseUrl = config.baseUrl;
-      this.hostname = parsed.parsed.hosename;
-      this.port = parsed.parsed.port;
+      this.hostname = parsed.hostname;
+      this.port = parsed.port;
     } else {
       this.hostname = config.hostname;
       this.port = config.port;
@@ -116,7 +116,7 @@ class CallbackServer {
     return new Promise((resolve, reject) => {
       if (this.paths[path]) {
         const err = new Error('already has a path');
-        logger.error(err);
+        logger.warn(err);
         reject(err);
         return;
       }

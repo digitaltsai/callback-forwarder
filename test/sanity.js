@@ -114,7 +114,7 @@ describe('Tests', function () {
     });
   });
 
-  describe('Funcky', function () {
+  describe('Funky', function () {
     it('Should be able to queue to create a listener before connecting', function () { // eslint-disable-line max-len
       const client = new Client(config);
       const promise = client.createListener()
@@ -129,6 +129,24 @@ describe('Tests', function () {
         })
         .then((res) => {
           expect(res.statusCode).to.equal(204);
+        });
+
+      client.connect();
+      return promise;
+    });
+
+    it('Should be get an error for 2nd listener for same path', function () { // eslint-disable-line max-len
+      const client = new Client(config);
+      const randomId = `/${uuid.v4()}`;
+      const promise = client.createListener(randomId)
+        .then((listener) => {
+          expect(url.parse(listener.uri).path).to.equal(randomId);
+        })
+        .then(() => client.createListener(randomId))
+        .then(() => {
+          throw new Error('Should not have succeeded in making a listener');
+        }, (err) => {
+          expect('already has a path').to.equal(err.message);
         });
 
       client.connect();
