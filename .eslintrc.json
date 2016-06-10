@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "strict": 0
+  },
+  "extends": "airbnb",
+  "env": {
+    "mocha": true
+  }
+}
