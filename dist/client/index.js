@@ -18,11 +18,13 @@ var Client = function () {
 
     this.config = config;
     this.secret = config.sharedSecret;
+    this.connected = false;
     if (config.baseUrl) {
       this.baseUrl = config.baseUrl;
     } else {
       this.baseUrl = 'http' + (config.secure ? 's' : '') + '://' + config.hostname + ':' + config.port;
     }
+    this.queue = [];
   }
 
   _createClass(Client, [{
@@ -61,6 +63,11 @@ var Client = function () {
 
           if (parsed.connected === true) {
             _this.ws.removeListener('close', authReject);
+            _this.connected = true;
+            _this.queue.forEach(function (fn) {
+              fn();
+            });
+            _this.queue = [];
             resolve(_this);
             return;
           }
@@ -157,15 +164,25 @@ var Client = function () {
           resolve(parsed);
         };
 
-        timeout = setTimeout(function () {
-          _this3.ws.removeListener('message', listener);
-          reject(new Error('timed out'));
-        }, 2000);
+        var run = function run() {
+          timeout = setTimeout(function () {
+            _this3.ws.removeListener('message', listener);
+            reject(new Error('timed out'));
+          }, 2000);
 
-        _this3.ws.on('message', listener);
+          _this3.ws.on('message', listener);
 
-        logger.debug('Sending message', message);
-        _this3.ws.send(JSON.stringify(message));
+          logger.debug('Sending message', message);
+          _this3.ws.send(JSON.stringify(message));
+        };
+
+        if (_this3.connected === true) {
+          run();
+        } else {
+          _this3.queue.push(function () {
+            return run();
+          });
+        }
       });
     }
   }]);

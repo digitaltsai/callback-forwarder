@@ -21,6 +21,18 @@ var CallbackServer = function () {
     _classCallCheck(this, CallbackServer);
 
     this.config = config;
+
+    if (config.baseUrl) {
+      var parsed = url.parse(config.baseUrl);
+      this.baseUrl = config.baseUrl;
+      this.hostname = parsed.parsed.hosename;
+      this.port = parsed.parsed.port;
+    } else {
+      this.hostname = config.hostname;
+      this.port = config.port;
+      this.baseUrl = 'http' + (config.secure ? 's' : '') + '://' + config.hostname + ':' + config.port;
+    }
+
     this.paths = {};
     this.secret = config.sharedSecret;
 
@@ -89,13 +101,13 @@ var CallbackServer = function () {
       var _this2 = this;
 
       return new Promise(function (resolve, reject) {
-        _this2.server.listen(_this2.config.port, _this2.config.hostname, function (err) {
+        _this2.server.listen(_this2.port, _this2.hostname, function (err) {
           if (err) {
             logger.error(err);
             reject(err);
             return;
           }
-          logger.debug('Server started on ' + _this2.config.hostname + ':' + _this2.config.port); // eslint-disable-line
+          logger.debug('Server started on ' + _this2.hostname + ':' + _this2.port); // eslint-disable-line
           resolve();
         });
       });
