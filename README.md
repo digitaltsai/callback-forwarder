@@ -28,7 +28,7 @@ Goto the [Client README](client/README.md) to get more details about the api
 ```javascript
 // create the client first
 const client = new Client({
-  host: 'yourdomain.com',
+  hostname: 'yourdomain.com',
   port: 80, // or you can do baseUrl: 'http://yourdomain.com:80'
   sharedSecret: 'YOURSECRET'
 });

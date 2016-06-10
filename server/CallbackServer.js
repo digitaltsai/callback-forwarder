@@ -12,6 +12,18 @@ const logger = require('../common/Logger')('CallbackServer');
 class CallbackServer {
   constructor(config) {
     this.config = config;
+
+    if (config.baseUrl) {
+      const parsed = url.parse(config.baseUrl);
+      this.baseUrl = config.baseUrl;
+      this.hostname = parsed.parsed.hosename;
+      this.port = parsed.parsed.port;
+    } else {
+      this.hostname = config.hostname;
+      this.port = config.port;
+      this.baseUrl = `http${config.secure ? 's' : ''}://${config.hostname}:${config.port}`;
+    }
+
     this.paths = {};
     this.secret = config.sharedSecret;
 
@@ -78,13 +90,13 @@ class CallbackServer {
 
   start() {
     return new Promise((resolve, reject) => {
-      this.server.listen(this.config.port, this.config.hostname, (err) => {
+      this.server.listen(this.port, this.hostname, (err) => {
         if (err) {
           logger.error(err);
           reject(err);
           return;
         }
-        logger.debug(`Server started on ${this.config.hostname}:${this.config.port}`); // eslint-disable-line
+        logger.debug(`Server started on ${this.hostname}:${this.port}`); // eslint-disable-line
         resolve();
       });
     });
