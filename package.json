@@ -1,8 +1,12 @@
 {
   "name": "callback-forwarder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Forwards callbacks to clients",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digitaltsai/callback-forwarder.git"
+  },
   "scripts": {
     "start": "node dist/server/app.js",
     "test": "mocha -r chai test",
