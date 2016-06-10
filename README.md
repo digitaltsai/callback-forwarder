@@ -16,7 +16,7 @@ This was created mostly to test callback urls.
 1. git clone
 2. npm install
 3. modify config.sample.js
-4. cp config.sample.js config.js
+4. npm run config
 5. npm start
 
 ---

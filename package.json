@@ -8,7 +8,8 @@
     "url": "git+https://github.com/digitaltsai/callback-forwarder.git"
   },
   "scripts": {
-    "start": "node server/app.js",
+    "config": "cp config.sample.js dist/config.js && cp config.sample.js config.js",
+    "start": "node dist/server/app.js",
     "test": "mocha -r chai test",
     "dist": "babel server --out-dir dist/server --source-maps && babel client --out-dir dist/client --source-maps && babel common --out-dir dist/common --source-maps"
   },
