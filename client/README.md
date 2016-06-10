@@ -14,6 +14,9 @@
 `baseUrl String` (overwrites host and port)  
 `secure Boolean` (https and wss if true)  
 
+### `Client.connect()`
+* returns a Promise that resolves when client connect
+
 ### `Client.createListener([path, handler(req, res)])`
 `path String` optional, if not give, you will be give a path  
 `handler Function` optional, if not give, will return 200  

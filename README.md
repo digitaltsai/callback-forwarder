@@ -46,7 +46,7 @@ client.createListener('test', (req, res) => {
   // now whenever you hit http://yourdomain.com/test, you
   // will get a status 200 and body of 'OK'
   request.get({
-    uri: listener.url,
+    uri: listener.uri,
   }, function(err, res) {
     // response will be 'OK'
   });
