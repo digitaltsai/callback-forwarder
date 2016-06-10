@@ -1,4 +1,6 @@
-This is just to create a callback forwarder for services that calls callback urls
+# What is this
+
+This is a way to create a callback url forwarder for services that uses callback urls. You have a server that can connect to your clients through WebSockets. The clients can then tell the server to forward them the request what a path matches and give a response as well.
 
 # How to run
 
